@@ -1,0 +1,103 @@
+<div class="alert alert-info">
+    <h1 class="mx-auto" style="width: 450px">Catálogo de Productos</h1>
+</div>
+
+{{!-- Cuadro de logueo --}}
+{{#if isLogged}}
+<div class="ml-3">
+    <span class="alert-info">
+        <strong>Usuario Logueado: </strong> {{isLogged.nombre}} {{isLogged.apellido}} {{#if isAdmin}}
+        <strong>(ADMIN):</strong> {{/if}}
+    </span>
+    <div>
+        <form method="GET" action="sessions/logout">
+            <button type="submit" class=" btn-info">Desloguearse</button>
+        </form>
+    </div>
+</div>
+{{/if }}
+
+<div style="display: flex">
+    <div id="container" class="mx-auto" style="width: 50%">
+        <table class="table table-stripped" id="tableProd">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-center" scope="col">Titulo</th>
+                    <th class="text-center" scope="col">Descripción</th>
+                    <th class="text-center" scope="col">Precio</th>
+                    <th class="text-center" scope="col">Código</th>
+                    <th class="text-center" scope="col">Thumbnail</th>
+                    <th class="text-center" scope="col">Stock</th>
+                    <th class="text-center" scope="col">Categoría</th>
+                    <th class="text-center" scope="col">Status</th>
+                    <th class="text-center" scope="col">ID</th>
+                </tr>
+            </thead>
+            <tbody id="body">
+                {{#if dataExist}}
+                {{#each payload}}
+                <tr>
+                    <td class="text-center">{{this.title}}</td>
+                    <td class="text-center">{{this.description}}</td>
+                    <td class="text-center">{{this.price}}</td>
+                    <td class="text-center">{{this.code}}</td>
+                    <td class="text-center"><img style="width:35px" src={{this.thumbnail}} alt="prd-img"></td>
+                    <td class="text-center">{{this.stock}}</td>
+                    <td class="text-center">{{this.category}}</td>
+                    <td class="text-center">{{this.status}}</td>
+                    <td class="text-center">{{this._id}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <div class="text-center" id="buttons">
+            {{#if hasPrevPage}}
+            <button id="prev" name="{{prevLink}})"> Anterior </button>
+            {{/if}}
+
+            <span>{{page}}-{{totalPages}}</span>
+
+            {{#if hasNextPage}}
+            <button id="next" name="{{nextLink}}"> Siguiente </button>
+            {{/if}}
+
+        </div>
+        {{else}}
+        </tbody>
+        </table>
+        <div id="alertContainer">
+            <div id="boxAlert" class="alert alert-danger mx-auto" style="width: 400px" role="alert">
+                <span class="mx-auto"> No existen productos agregados por el momento.</span>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+
+</div>
+{{#if isAdmin}}
+<div class="text-center">
+    <button style="margin: 10px;" class="btn-info px-4 py-2">
+        <a href="/productos">
+            <strong style="color: white">Editar Catalogo</strong>
+        </a>
+    </button>
+</div>
+{{/if}}
+{{#unless isLogged}}
+<div class="text-center">
+
+    <button style="margin: 10px;" class="btn-info px-4 py-2">
+        <a href="/login">
+            <strong style="color: white">Iniciar Sesión</strong>
+        </a>
+    </button>
+    <button style="margin-top: 10px;" class="btn-info px-4 py-2">
+        <a href="/register">
+            <strong style="color: white">Registrarse</strong>
+        </a>
+    </button>
+</div>
+{{/unless}}
+
+
+<script src="/aleas/js/index.js"></script>
